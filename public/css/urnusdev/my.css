@@ -1,0 +1,25 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 19-07-2015, 07:36:30 PM
+    Author     : nocturnus
+*/
+.box-seleccion
+{
+    overflow: auto;
+    height: 350px;
+}
+
+
+.logo {
+    width: 87px;
+    background: none;
+    border: 0;
+    padding: 0;
+    margin: 0;
+    right: -8px;
+position: absolute;
+}
