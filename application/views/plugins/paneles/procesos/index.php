@@ -115,7 +115,7 @@
         </div>
     </div>
     <?php 
-    var_dump(@$upload_msg);
+    var_dump(@$LOG["MSG_DB"]);
     ?>
     
 <?=form_open_multipart('upload/carga_a/'.$ruta_pm); ?>

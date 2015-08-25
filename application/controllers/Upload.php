@@ -48,7 +48,8 @@ class Upload extends CI_Controller{
         $data["paginacion"]="";
         
         if(!isset($data["upload_msg"]['Error'])):
-          $data["upload_msg"]["Success"] =  $this->procesa($data["upload_msg"]["Success"]);
+         // $data["upload_msg"]["Success"] =  $this->procesa($data["upload_msg"]["Success"]);
+         $data["LOG"]=$this->p_r(true);
         endif;
         $this->urnusdev_c_2->route_panel($data,$this);
     }
@@ -96,7 +97,8 @@ class Upload extends CI_Controller{
         
         
     }
-    public function p_r() {
+    public function p_r($flag=false) {
+        $this->benchmark->mark('urnus');
         $tandas=array();
         $this->load->helper('urnusdev/archivos');
         
@@ -108,17 +110,29 @@ class Upload extends CI_Controller{
             $this->proc_task($value["server_path"],$dir,$value["name"]);
         }
         
-       
-        
+       $this->benchmark->mark('dev');
+       if(!$flag):
+       echo "Tiempo de ejecución: ".$this->benchmark->elapsed_time('urnus', 'dev')."<p>";
        echo json_encode($this->data_task);
+       else:
+           return $this->data_task;
+       endif;
+ 
     }
     
     protected function proc_task($archivo,$directorio,$nombre_arch) {
         if(is_dir($archivo)):
             return;
         endif;
+        
         $contador = $sub_contador=1;
         $realPath=  str_replace($nombre_arch, "", $archivo);
+        $o=chr(92);$s = explode($o, $realPath);$b  = explode("/", $realPath);
+        if(count($s)>count($b)):
+                  $s=$o;
+        else:
+        $s="/";
+        endif;
         $datos_tanda=array();
             $datos = open($archivo);
         while(!feof($datos))
@@ -135,7 +149,8 @@ class Upload extends CI_Controller{
            if($linia!="" && ord($linia)!=13 && ord($linia)!=10 ):
                $ord=ord($linia);
                $tandas[$tanda][$total]=$linia;
-           $datos_tanda[$contador]["archivo"]=utf8_encode($archivo)   ;
+           $datos_tanda[$contador]["ruta"]=  utf8_encode($realPath."procesados$s");
+           $datos_tanda[$contador]["archivo"]=utf8_encode($nombre_arch)   ;
            $datos_tanda[$contador]["tanda"]=utf8_encode($tanda)                 ;
            $datos_tanda[$contador]["data"]=utf8_encode($linia)                  ;
            
@@ -151,12 +166,7 @@ class Upload extends CI_Controller{
         
        $this->data_task["MSG_DB"][$archivo]=$this->tandas->insert_batch($datos_tanda);
         fclose($datos);
-        $o=chr(92);$s = explode($o, $realPath);$b  = explode("/", $realPath);
-        if(count($s)>count($b)):
-                  $s=$o;
-        else:
-        $s="/";
-        endif;
+        
               
               
                $pr_arch="\\procesados\\".$nombre_arch;

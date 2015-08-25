@@ -16,6 +16,19 @@ class Tandas extends CI_Model{
         parent::__construct();
     }
     
+    public function filas_() {
+       $r= $this->db->select("ruta,archivo")->distinct()->from("tandas")->get()->result();
+        return count($r);
+    }
+    function listado($pagination, $segment) {
+    $this->db->select("ruta,archivo")->distinct();
+    $this->db->order_by('archivo', 'asc');
+    $this->db->limit($pagination, $segment);
+    $query = $this->db->get('tandas')->result();
+
+    return $query;
+
+    }
     public function insert_batch($data)
     {
        $ret = $this->db->insert_batch('tandas', $data);
