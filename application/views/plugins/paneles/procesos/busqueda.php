@@ -3,7 +3,7 @@ $CI=&get_instance();
 $CI->load->model("tandas");
 @$cartera=$this->session->userdata('logged_in')["usuario"]->USU_CARTERA;
 
-    $pagination = 10;
+    $pagination = 5;
     $config['base_url'] = base_url('modu/load/'.$ruta_pm);
     $config['total_rows'] = $CI->tandas->filas_();
     $config['per_page'] = $pagination;

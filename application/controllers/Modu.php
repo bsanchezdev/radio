@@ -32,9 +32,6 @@ class Modu extends CI_Controller{
         
         $this->urnusdev_c_2->route_panel($data,$this);
         if(is_numeric($paginacion)||!isset($paginacion)):
-       //     $data["paginacion"]=$paginacion;
-        //$this->urnusdev_c_2->route_panel($data,$this);
-        
         endif;
         
     }

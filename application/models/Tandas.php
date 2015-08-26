@@ -57,4 +57,62 @@ class Tandas extends CI_Model{
         }*/
     }
     
+    
+    
+    public function front_data($pagination,$segment) {
+      
+    $query=   $this->db->select("tandas.tanda,"
+               . "tandas.archivo")
+               ->distinct()
+               ->from("tandas")
+            ->limit($pagination, $segment)
+        ->get()->result();
+    $lq=  $this->db->last_query();
+    
+    return $query;
+    }
+    
+    public function filas_front() {
+       $query=   $this->db->select(
+                "tandas.tanda,"
+               . "tandas.archivo")
+               ->distinct()
+               ->from("tandas")
+        ->get()->result();
+        return count($query);
+    }
+    
+    
+    
+    
+    
+    
+    
+    public function i_arch($arch,$path) {
+        
+        $data=array("archivo"=>$arch,"path"=>$path);
+        $this->db->insert('archivos',$data);
+        return $this->db->insert_id();
+    }
+    
+    public function i_tanda($tanda,$id_archivo) {
+        $data=array("tanda"=>$tanda,"id_archivo"=>$id_archivo);
+        $this->db->insert('tanda', $data);
+        return $this->db->insert_id();
+    }
+    
+    public function i_audio($id_tanda,$path) {
+        
+        $data=array("id_tanda"=>$id_tanda,"archivo_audio_path"=>$path);
+        $this->db->insert('audio',$data);
+        return $this->db->insert_id();
+    }
+    
+    public function i_data($id_tanda,$dato) {
+        
+        $data=array("id_tanda"=>$id_tanda,"data"=>$dato);
+        $this->db->insert('data',$data);
+        return $this->db->insert_id();
+    }
+    
 }

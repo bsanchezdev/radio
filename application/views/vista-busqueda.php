@@ -55,49 +55,18 @@
                                 </div>
                                 <div class="x_content">
                                     <br>
-                                    <form class="form-horizontal form-label-left input_mask">
-
-                                        <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
-                                            <input class="form-control has-feedback-left" id="camp" name="camp" placeholder="Campaña" type="text">
-                                            <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
-                                        </div>
-
-                                        <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
-                                            <input class="form-control" id="radio" name="radio" placeholder="Radio" type="text">
-                                            <span class="fa fa-user form-control-feedback right" aria-hidden="true"></span>
-                                        </div>
-
-                                        <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
-                                            <input type="text" class="form-control has-feedback-left" id="fini" placeholder="Fecha Inicio" aria-describedby="inputSuccess2Status">
-                                                            <span class="fa fa-calendar-o form-control-feedback left" aria-hidden="true"></span>
-                                                            <span id="inputSuccess2Status" class="sr-only">(success)</span>                                            
-                                        </div>
-
-                                        <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
-                                        <input type="text" class="form-control has-feedback-left" id="fterm" placeholder="Fecha Termino" aria-describedby="inputSuccess2Status">
-                                                            <span class="fa fa-calendar-o form-control-feedback left" aria-hidden="true"></span>
-                                                            <span id="inputSuccess2Status" class="sr-only">(success)</span>
-                                        </div>
-                                        
-                                        <div class="form-group">
-                                            <div class="col-md-12 col-sm-12 col-xs-12">
-                                                <button type="submit" class="btn btn-primary form-control">Cancel</button>
-                                                <button type="submit" class="btn btn-success form-control">Submit</button>
-                                            </div>
-                                        </div>
-
-                                    </form>
+                                    
+                                    
+                                    <?php $this->load->view("front/form_");?>
+                                    
+                                    
+                                    
                                 </div>
                             </div>
             </div>
         </div>
 
-        <div class="row">
-                <div class="col-md-6 col-lg-6 col-xs-12 col-sm-12">
-                    <input class="form-control" id="camp" name="camp">
-                </div>
-                <div class="col-md-6 col-lg-6 col-xs-12 col-sm-12"></div>
-        </div>
+        
         
     </div>
     <script type='text/javascript' src='<?php echo $bootstrap_url; ?>js/bootstrap.min.js'></script>

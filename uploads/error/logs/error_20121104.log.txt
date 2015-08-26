@@ -1,0 +1,3 @@
+ERROR LOG: 
+
+Query: INSERT INTO `data` (`id_tanda`, `data`) VALUES (245, 'PRES DOM CYC\r\n')

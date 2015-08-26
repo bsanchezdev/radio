@@ -18,7 +18,11 @@ class Busqueda extends CI_Controller {
         parent::__construct();
     }
     
-    public function index() {
+    public function b_($paginacion) {
+        
+        $this->index($paginacion);
+    }
+    public function index($paginacion="") {
         $data["app"]=$this->sis->app_var();
         $data["bootstrap_url"]=base_url()."public/bootstrap/";
         $data["jquery_url"]=base_url()."public/jquery/";
@@ -29,6 +33,7 @@ class Busqueda extends CI_Controller {
         $data["fonts"]=base_url()."public/fonts/";
         $data["images"]=base_url()."public/images/";
         $data["js"]=base_url()."public/js/";
+        $data["paginacion"]=$paginacion;
         $this->load->view("vista-busqueda",$data);
     }
 }

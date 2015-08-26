@@ -1,0 +1,3 @@
+ERROR LOG: 
+
+Query: INSERT INTO `audio` (`id_tanda`, `archivo_audio_path`) VALUES (437, '\\\\Radiolib\\(d) datos\\AUDIO\\RETORNO FRASES\\Cuña Primavera 03.mp3\r\n')

@@ -98,6 +98,7 @@ class Upload extends CI_Controller{
         
     }
     public function p_r($flag=false) {
+        set_time_limit(600);
         $this->benchmark->mark('urnus');
         $tandas=array();
         $this->load->helper('urnusdev/archivos');
@@ -107,7 +108,8 @@ class Upload extends CI_Controller{
         $dir= dirname($dir);
         $directorio=get_dir_file_info($dir."/uploads/");
         foreach ($directorio as $key => $value) {
-            $this->proc_task($value["server_path"],$dir,$value["name"]);
+            $this->sql_task($value["server_path"],$dir,$value["name"]);
+          //  $this->proc_task($value["server_path"],$dir,$value["name"]);
         }
         
        $this->benchmark->mark('dev');
@@ -119,7 +121,72 @@ class Upload extends CI_Controller{
        endif;
  
     }
-    
+    public function sql_task($archivo,$directorio,$nombre_arch) {
+        set_time_limit(600);
+         if(is_dir($archivo)):
+            return;
+        endif;
+        
+        $contador = $sub_contador=1;
+        $realPath=  str_replace($nombre_arch, "", $archivo);
+        $o=chr(92);$s = explode($o, $realPath);$b  = explode("/", $realPath);
+        if(count($s)>count($b)):
+                  $s=$o;
+        else:
+        $s="/";
+        endif;
+        $datos_tanda=array();
+            $datos = open($archivo);
+            $id_arch=$this->tandas->i_arch($nombre_arch,$realPath."procesados$s");
+        while(!feof($datos))
+	{
+           $linia=fgets($datos);
+	   if(strpos($linia, "Tanda")):
+               $total=0;
+               $tanda=  str_replace("/", " ", $linia)   ;
+               $tanda= trim($tanda)   ;
+               $id_tanda=$this->tandas->i_tanda($tanda,$id_arch);
+           $linia="";
+           endif;
+           
+           if($linia!="" && ord($linia)!=13 && ord($linia)!=10 ):
+               
+               if(strpos($linia, "mp3")){
+                   $this->tandas->i_audio($id_tanda,utf8_encode($linia));
+               }
+               else{
+                   $this->tandas->i_data($id_tanda,utf8_encode($linia));
+               }
+          
+              
+                     
+           endif;
+           
+           $this->data_task["MSG_DB"][$archivo]["Success"]=true;
+           
+	    $total++;
+            $contador++;
+	}
+           fclose($datos);
+               $pr_arch="\\procesados\\".$nombre_arch;
+                if($this->data_task["MSG_DB"][$archivo]["Success"]):
+                 $r= rename( $archivo, $realPath."procesados$s".$nombre_arch );
+                else:
+                 $r= rename( $archivo, $realPath."error$s".$nombre_arch );  
+                    $file = fopen($realPath."error$s"."logs$s"."error_$nombre_arch.txt", "w");
+                    $CI=&get_instance();
+                    
+                    fwrite($file, 
+                            "ERROR LOG: "
+                            .PHP_EOL.
+                            $this->data_task["MSG_DB"][$archivo]["message"]
+                            . PHP_EOL.
+                            "Query: ".$CI->db->last_query()
+                            
+                            );
+                    fclose($file);
+                  endif;
+    }
     protected function proc_task($archivo,$directorio,$nombre_arch) {
         if(is_dir($archivo)):
             return;
