@@ -256,5 +256,15 @@ class Upload extends CI_Controller{
                   endif;
                 
     }
+    
+    public function catch_data() {
+        
+      echo $_POST["archivo_nombre"];
+      echo "<br>";
+      echo  base64_decode($_POST["archivo_data"]);
+        
+        
+        
+    }
 }
 
